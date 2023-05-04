@@ -10,16 +10,16 @@ variable "vpc_name" {}
 
 variable "domain_name" {}
 
-variable "neo4j_bolt_url" {}
-
-variable "neo4j_bolt_user" {
-  default = "model_service_user"
-}
-
 variable "image_tag" {}
 
 variable "lambda_bucket" {
   default = "pennsieve-cc-lambda-functions-use1"
+}
+
+variable "neo4j_bolt_url" {}
+
+variable "neo4j_bolt_user" {
+  default = "ingest_service_user"
 }
 
 locals {

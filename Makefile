@@ -3,7 +3,7 @@
 LAMBDA_BUCKET ?= "pennsieve-cc-lambda-functions-use1"
 WORKING_DIR   ?= "$(shell pwd)"
 API_DIR ?= "api"
-SERVICE_NAME  ?= "model-service-serverless"
+SERVICE_NAME  ?= "ingest-service-serverless"
 PACKAGE_NAME  ?= "${SERVICE_NAME}-${IMAGE_TAG}.zip"
 NEO4J_APOC_VERSION ?= "3.5.0.13"
 
@@ -65,9 +65,9 @@ package:
 	@echo "***********************"
 	@echo ""
 	cd lambda/service; \
-  		env GOOS=linux GOARCH=amd64 go build -o $(WORKING_DIR)/lambda/bin/modelService/model_service; \
-		cd $(WORKING_DIR)/lambda/bin/modelService/ ; \
-			zip -r $(WORKING_DIR)/lambda/bin/modelService/$(PACKAGE_NAME) .
+  		env GOOS=linux GOARCH=amd64 go build -o $(WORKING_DIR)/lambda/bin/ingestService/ingest_service; \
+		cd $(WORKING_DIR)/lambda/bin/ingestService/ ; \
+			zip -r $(WORKING_DIR)/lambda/bin/ingestService/$(PACKAGE_NAME) .
 
 # Copy Service lambda to S3 location
 publish:
@@ -77,5 +77,5 @@ publish:
 	@echo "*   Publishing lambda   *"
 	@echo "*************************"
 	@echo ""
-	aws s3 cp $(WORKING_DIR)/lambda/bin/modelService/$(PACKAGE_NAME) s3://$(LAMBDA_BUCKET)/$(SERVICE_NAME)/
-	rm -rf $(WORKING_DIR)/lambda/bin/modelService/$(PACKAGE_NAME)
+	aws s3 cp $(WORKING_DIR)/lambda/bin/ingestService/$(PACKAGE_NAME) s3://$(LAMBDA_BUCKET)/$(SERVICE_NAME)/
+	rm -rf $(WORKING_DIR)/lambda/bin/ingestService/$(PACKAGE_NAME)

@@ -2,8 +2,8 @@
 # MODEL-SERVICE-LAMBDA   #
 ##############################
 
-resource "aws_iam_role" "model_service_lambda_role" {
-  name = "${var.environment_name}-${var.service_name}-model_service-lambda-role-${data.terraform_remote_state.region.outputs.aws_region_shortname}"
+resource "aws_iam_role" "ingest_service_lambda_role" {
+  name = "${var.environment_name}-${var.service_name}-ingest_service-lambda-role-${data.terraform_remote_state.region.outputs.aws_region_shortname}"
 
   assume_role_policy = <<EOF
 {
@@ -22,18 +22,18 @@ resource "aws_iam_role" "model_service_lambda_role" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "model_service_lambda_iam_policy_attachment" {
-  role       = aws_iam_role.model_service_lambda_role.name
+resource "aws_iam_role_policy_attachment" "ingest_service_lambda_iam_policy_attachment" {
+  role       = aws_iam_role.ingest_service_lambda_role.name
   policy_arn = aws_iam_policy.model_service_lambda_iam_policy.arn
 }
 
 resource "aws_iam_policy" "model_service_lambda_iam_policy" {
-  name   = "${var.environment_name}-${var.service_name}-model-service-lambda-iam-policy-${data.terraform_remote_state.region.outputs.aws_region_shortname}"
+  name   = "${var.environment_name}-${var.service_name}-ingest-service-lambda-iam-policy-${data.terraform_remote_state.region.outputs.aws_region_shortname}"
   path   = "/"
-  policy = data.aws_iam_policy_document.model_service_iam_policy_document.json
+  policy = data.aws_iam_policy_document.ingest_service_iam_policy_document.json
 }
 
-data "aws_iam_policy_document" "model_service_iam_policy_document" {
+data "aws_iam_policy_document" "ingest_service_iam_policy_document" {
 
   statement {
     sid    = "SecretsManagerPermissions"
@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "model_service_iam_policy_document" {
   }
 
   statement {
-    sid    = "ModelServiceLambdaPermissions"
+    sid    = "IngestServiceLambdaPermissions"
     effect = "Allow"
     actions = [
       "rds-db:connect",
