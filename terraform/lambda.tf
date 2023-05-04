@@ -2,7 +2,7 @@
 
 ## Lambda Function which consumes messages from the SQS queue which contains all events.
 resource "aws_lambda_function" "service_lambda" {
-  description       = "Lambda Function which handles requests for the serverless CSV ingest service"
+  description       = "Lambda Function which handles requests for the serverless ingest service"
   function_name     = "${var.environment_name}-${var.service_name}-service-lambda-${data.terraform_remote_state.region.outputs.aws_region_shortname}"
   handler           = "ingest_service"
   runtime           = "go1.x"

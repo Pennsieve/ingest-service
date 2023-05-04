@@ -24,10 +24,10 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "ingest_service_lambda_iam_policy_attachment" {
   role       = aws_iam_role.ingest_service_lambda_role.name
-  policy_arn = aws_iam_policy.model_service_lambda_iam_policy.arn
+  policy_arn = aws_iam_policy.ingest_service_lambda_iam_policy.arn
 }
 
-resource "aws_iam_policy" "model_service_lambda_iam_policy" {
+resource "aws_iam_policy" "ingest_service_lambda_iam_policy" {
   name   = "${var.environment_name}-${var.service_name}-ingest-service-lambda-iam-policy-${data.terraform_remote_state.region.outputs.aws_region_shortname}"
   path   = "/"
   policy = data.aws_iam_policy_document.ingest_service_iam_policy_document.json
