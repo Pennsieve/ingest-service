@@ -3,7 +3,7 @@
 LAMBDA_BUCKET ?= "pennsieve-cc-lambda-functions-use1"
 WORKING_DIR   ?= "$(shell pwd)"
 API_DIR ?= "api"
-SERVICE_NAME  ?= "ingest-service-serverless"
+SERVICE_NAME  ?= "ingest-service"
 PACKAGE_NAME  ?= "${SERVICE_NAME}-${IMAGE_TAG}.zip"
 NEO4J_APOC_VERSION ?= "3.5.0.13"
 
