@@ -10,11 +10,8 @@ require (
 )
 
 require (
-<<<<<<< HEAD
-=======
 	github.com/aws/aws-sdk-go v1.44.257 // indirect
 	github.com/go-gota/gota v0.12.0 // indirect
->>>>>>> f76e53d (Start parsing out CSV contents)
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/lib/pq v1.10.7 // indirect
