@@ -50,6 +50,27 @@ data "aws_iam_policy_document" "ingest_service_iam_policy_document" {
   }
 
   statement {
+    sid = "IngestBucketAccess"
+    effect = "Allow"
+
+    actions = [
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:GetObjectAttributes",
+      "s3:DeleteObject",
+      "s3:PutObject",
+      "s3:ListBucketMultipartUploads",
+      "s3:AbortMultipartUpload",
+      "s3:ListMultipartUploadParts",
+      "s3:PutObjectTagging"
+    ]
+
+    resources = [
+      data.terraform_remote_state.platform_infrastructure.output.ingest_bucket_arn,
+      "${data.terraform_remote_state.platform_infrastructure.output.ingest_bucket_arn}/*",
+    ]
+
+  statement {
     sid    = "IngestServiceLambdaPermissions"
     effect = "Allow"
     actions = [

@@ -11,7 +11,6 @@ import (
 
 // init runs on cold start of lambda and fetches variables and created neo4j driver.
 func init() {
-
 	log.SetFormatter(&log.JSONFormatter{})
 	ll, err := log.ParseLevel(os.Getenv("LOG_LEVEL"))
 	if err != nil {
@@ -41,6 +40,11 @@ func IngestHandler(request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2
 		case "POST":
 			//	Return all models for a specific dataset
 			if authorized = authorizer.HasRole(*claims, permissions.CreateDeleteRecord); authorized {
+				apiResponse = &events.APIGatewayV2HTTPResponse{
+					StatusCode: 200,
+					Body:       `{"processId": "1234567890"}`,
+				}
+
 				log.Info("hello World Again")
 			}
 		}
@@ -48,11 +52,11 @@ func IngestHandler(request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2
 
 	// Return unauthorized if
 	if !authorized {
-		apiResponse := events.APIGatewayV2HTTPResponse{
+		apiResponse = &events.APIGatewayV2HTTPResponse{
 			StatusCode: 403,
 			Body:       `{"message": "User is not authorized to perform this action on the dataset."}`,
 		}
-		return &apiResponse, nil
+		return apiResponse, nil
 	}
 
 	// Response
