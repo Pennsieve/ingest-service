@@ -26,6 +26,8 @@ func IngestHandler(request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2
 	var err error
 	var apiResponse *events.APIGatewayV2HTTPResponse
 
+	log.Info("Running the Ingest Handler")
+
 	r := regexp.MustCompile(`(?P<method>) (?P<pathKey>.*)`)
 	routeKeyParts := r.FindStringSubmatch(request.RouteKey)
 	routeKey := routeKeyParts[r.SubexpIndex("pathKey")]
@@ -34,7 +36,7 @@ func IngestHandler(request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2
 	authorized := false
 
 	switch routeKey {
-	case "/ingest/csv":
+	case "/ingest":
 		switch request.RequestContext.HTTP.Method {
 		case "POST":
 			//	Return all models for a specific dataset
