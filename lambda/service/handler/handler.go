@@ -39,7 +39,7 @@ func IngestHandler(request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2
 		case "POST":
 			//	Return all models for a specific dataset
 			if authorized = authorizer.HasRole(*claims, permissions.CreateDeleteRecord); authorized {
-				log.Info("hello World2")
+				log.Info("hello World Again")
 			}
 		}
 	}
