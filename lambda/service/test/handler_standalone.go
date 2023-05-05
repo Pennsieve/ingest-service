@@ -1,8 +1,10 @@
 package handler2
 
 import (
+	"encoding/csv"
 	"fmt"
 	"os"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
@@ -35,12 +37,50 @@ func DownloadS3CSVFile(bucket_name, key_name string) (file *os.File) {
 	return
 }
 
+func FetchLocalCSVFile(file_path string) (file *os.File) {
+
+	file, err := os.Open(file_path)
+
+	if err != nil {
+		log.Fatalf("Unable to open file %q, %v", file_path, err)
+	}
+
+	return
+}
+
+func ReadCSVFile(csv_file *os.File) (lines [][]string) {
+	lines, err := csv.NewReader(csv_file).ReadAll()
+
+	if err != nil {
+		return nil
+	}
+
+	return lines
+}
+
 func main() {
 
 	log.Info("hello World Again")
 
-	DownloadS3CSVFile("pennsieve-prod-discover-publish-use1", "2/2/metadata/records/Disease.csv")
-	myfile := DownloadS3CSVFile("pennsieve-prod-discover-publish-use1", "2/2/metadata/records/Disease.csv")
-	println("Filename:", myfile.Name())
+	test_filename := "./data/Disease.csv"
 
+	// myfile := DownloadS3CSVFile("pennsieve-prod-discover-publish-use1", "2/2/metadata/records/Disease.csv")
+	myfile := FetchLocalCSVFile(test_filename)
+	println("Filename:", myfile.Name())
+	lines := ReadCSVFile(myfile)
+
+	// csv_header := lines[0]
+	// csv_rows := lines[1:]
+
+	filename_stub := strings.Split(strings.Split(test_filename, "/")[-1], ".")[0]
+
+	println(filename_stub)
+
+	// Model CSV
+
+	// Properties CSV
+
+	// Record CSV
+
+	println(df)
 }
