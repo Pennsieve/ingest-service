@@ -1,9 +1,10 @@
-package handler2
+package main
 
 import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -62,19 +63,21 @@ func main() {
 
 	log.Info("hello World Again")
 
-	test_filename := "./data/Disease.csv"
+	test_filename := "../handler/data/Disease.csv"
 
 	// myfile := DownloadS3CSVFile("pennsieve-prod-discover-publish-use1", "2/2/metadata/records/Disease.csv")
 	myfile := FetchLocalCSVFile(test_filename)
 	println("Filename:", myfile.Name())
-	lines := ReadCSVFile(myfile)
+	// lines := ReadCSVFile(myfile)
 
 	// csv_header := lines[0]
 	// csv_rows := lines[1:]
 
-	filename_stub := strings.Split(strings.Split(test_filename, "/")[-1], ".")[0]
+	file_base := filepath.Base(test_filename)
+	model_name := strings.Split(file_base, ".")[0]
 
-	println(filename_stub)
+	println(file_base)
+	println(model_name)
 
 	// Model CSV
 
@@ -82,5 +85,4 @@ func main() {
 
 	// Record CSV
 
-	println(df)
 }
