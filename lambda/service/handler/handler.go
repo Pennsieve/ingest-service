@@ -27,7 +27,7 @@ func init() {
 	}
 }
 
-func RetrieveCSVFile(bucket_name, key_name string) (file *os.File) {
+func DownloadS3CSVFile(bucket_name, key_name string) (file *os.File) {
 	sess, _ := session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1")},
 	)
@@ -71,6 +71,10 @@ func IngestHandler(request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2
 			//	Return all models for a specific dataset
 			if authorized = authorizer.HasRole(*claims, permissions.CreateDeleteRecord); authorized {
 				log.Info("hello World Again")
+
+				s3file := DownloadS3CSVFile("pennsieve-prod-discover-publish-use1", "2/2/metadata/records/Disease.csv")
+
+				fmt.Println("File name:", s3file.Name())
 			}
 		}
 	}
